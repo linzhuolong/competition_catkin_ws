@@ -1,0 +1,8 @@
+prefix=/home/bearli/competition_catkin_ws/devel
+
+Name: decisionmaking
+Description: Description of decisionmaking
+Version: 0.0.0
+Cflags: -I/home/bearli/competition_catkin_ws/src/decisionmaking/include
+Libs: -L/home/bearli/competition_catkin_ws/devel/lib 
+Requires: roscpp rospy sensor_msgs std_msgs

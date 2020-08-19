@@ -1,0 +1,8 @@
+prefix=/home/bearli/competition_catkin_ws/install
+
+Name: dsp
+Description: Description of dsp
+Version: 0.0.0
+Cflags: -I/home/bearli/competition_catkin_ws/install/include
+Libs: -L/home/bearli/competition_catkin_ws/install/lib 
+Requires: roscpp rospy sensor_msgs serial std_msgs

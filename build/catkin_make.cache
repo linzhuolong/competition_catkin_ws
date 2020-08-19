@@ -1,0 +1,2 @@
+const_msg:decisionmaking:demopkg:dsp:hokuyo/urg_c:hokuyo/urg_node:hsv:realsense/realsense2_camera:realsense/realsense2_description:serial:usb_cam
+-DCATKIN_WHITELIST_PACKAGES=decisionmaking -DCATKIN_DEVEL_PREFIX=/home/bearli/competition_catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/bearli/competition_catkin_ws/install -G Unix Makefiles

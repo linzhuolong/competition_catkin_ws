@@ -1,0 +1,1 @@
+set(ORDERED_PATHS "/home/bearli/competition_catkin_ws/devel/lib;/opt/ros/kinetic/lib")

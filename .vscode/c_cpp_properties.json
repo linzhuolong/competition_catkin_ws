@@ -1,0 +1,29 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/home/bearli/competition_catkin_ws/devel/include/**",
+                "/opt/ros/kinetic/include/**",
+                "/home/bearli/competition_catkin_ws/src/const_msg/include/**",
+                "/home/bearli/competition_catkin_ws/src/realsense/realsense2_camera/include/**",
+                "/home/bearli/competition_catkin_ws/src/serial/include/**",
+                "/home/bearli/competition_catkin_ws/src/hokuyo/urg_node/include/**",
+                "/home/bearli/competition_catkin_ws/src/usb_cam/include/**",
+                "/home/bearli/competition_catkin_ws/src/hsv/include/**",
+                "/home/bearli/competition_catkin_ws/src/decisionmaking/include/**",
+                "/home/bearli/competition_catkin_ws/src/dsp/include/**",
+                "/usr/include/**"
+            ],
+            "name": "ROS",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}

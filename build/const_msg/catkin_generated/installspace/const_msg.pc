@@ -1,0 +1,8 @@
+prefix=/home/bearli/competition_catkin_ws/install
+
+Name: const_msg
+Description: Description of const_msg
+Version: 0.0.0
+Cflags: -I/home/bearli/competition_catkin_ws/install/include
+Libs: -L/home/bearli/competition_catkin_ws/install/lib 
+Requires: roscpp rospy sensor_msgs std_msgs message_runtime

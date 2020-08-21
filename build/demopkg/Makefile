@@ -166,6 +166,21 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+demopkg/CMakeFiles/pub_control.dir/rule:
+	cd /home/bearli/competition_catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 demopkg/CMakeFiles/pub_control.dir/rule
+.PHONY : demopkg/CMakeFiles/pub_control.dir/rule
+
+# Convenience name for target.
+pub_control: demopkg/CMakeFiles/pub_control.dir/rule
+
+.PHONY : pub_control
+
+# fast build rule for target.
+pub_control/fast:
+	cd /home/bearli/competition_catkin_ws/build && $(MAKE) -f demopkg/CMakeFiles/pub_control.dir/build.make demopkg/CMakeFiles/pub_control.dir/build
+.PHONY : pub_control/fast
+
+# Convenience name for target.
 demopkg/CMakeFiles/serial_demo.dir/rule:
 	cd /home/bearli/competition_catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 demopkg/CMakeFiles/serial_demo.dir/rule
 .PHONY : demopkg/CMakeFiles/serial_demo.dir/rule
@@ -209,6 +224,21 @@ const_msg_generate_messages_nodejs: demopkg/CMakeFiles/const_msg_generate_messag
 const_msg_generate_messages_nodejs/fast:
 	cd /home/bearli/competition_catkin_ws/build && $(MAKE) -f demopkg/CMakeFiles/const_msg_generate_messages_nodejs.dir/build.make demopkg/CMakeFiles/const_msg_generate_messages_nodejs.dir/build
 .PHONY : const_msg_generate_messages_nodejs/fast
+
+# Convenience name for target.
+demopkg/CMakeFiles/boost_serial.dir/rule:
+	cd /home/bearli/competition_catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 demopkg/CMakeFiles/boost_serial.dir/rule
+.PHONY : demopkg/CMakeFiles/boost_serial.dir/rule
+
+# Convenience name for target.
+boost_serial: demopkg/CMakeFiles/boost_serial.dir/rule
+
+.PHONY : boost_serial
+
+# fast build rule for target.
+boost_serial/fast:
+	cd /home/bearli/competition_catkin_ws/build && $(MAKE) -f demopkg/CMakeFiles/boost_serial.dir/build.make demopkg/CMakeFiles/boost_serial.dir/build
+.PHONY : boost_serial/fast
 
 # Convenience name for target.
 demopkg/CMakeFiles/const_msg_generate_messages_eus.dir/rule:
@@ -690,6 +720,33 @@ sensor_msgs_generate_messages_lisp/fast:
 	cd /home/bearli/competition_catkin_ws/build && $(MAKE) -f demopkg/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/build.make demopkg/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/build
 .PHONY : sensor_msgs_generate_messages_lisp/fast
 
+src/boost_serial.o: src/boost_serial.cpp.o
+
+.PHONY : src/boost_serial.o
+
+# target to build an object file
+src/boost_serial.cpp.o:
+	cd /home/bearli/competition_catkin_ws/build && $(MAKE) -f demopkg/CMakeFiles/boost_serial.dir/build.make demopkg/CMakeFiles/boost_serial.dir/src/boost_serial.cpp.o
+.PHONY : src/boost_serial.cpp.o
+
+src/boost_serial.i: src/boost_serial.cpp.i
+
+.PHONY : src/boost_serial.i
+
+# target to preprocess a source file
+src/boost_serial.cpp.i:
+	cd /home/bearli/competition_catkin_ws/build && $(MAKE) -f demopkg/CMakeFiles/boost_serial.dir/build.make demopkg/CMakeFiles/boost_serial.dir/src/boost_serial.cpp.i
+.PHONY : src/boost_serial.cpp.i
+
+src/boost_serial.s: src/boost_serial.cpp.s
+
+.PHONY : src/boost_serial.s
+
+# target to generate assembly for a file
+src/boost_serial.cpp.s:
+	cd /home/bearli/competition_catkin_ws/build && $(MAKE) -f demopkg/CMakeFiles/boost_serial.dir/build.make demopkg/CMakeFiles/boost_serial.dir/src/boost_serial.cpp.s
+.PHONY : src/boost_serial.cpp.s
+
 src/laser.o: src/laser.cpp.o
 
 .PHONY : src/laser.o
@@ -716,6 +773,33 @@ src/laser.s: src/laser.cpp.s
 src/laser.cpp.s:
 	cd /home/bearli/competition_catkin_ws/build && $(MAKE) -f demopkg/CMakeFiles/laser.dir/build.make demopkg/CMakeFiles/laser.dir/src/laser.cpp.s
 .PHONY : src/laser.cpp.s
+
+src/pub_control.o: src/pub_control.cpp.o
+
+.PHONY : src/pub_control.o
+
+# target to build an object file
+src/pub_control.cpp.o:
+	cd /home/bearli/competition_catkin_ws/build && $(MAKE) -f demopkg/CMakeFiles/pub_control.dir/build.make demopkg/CMakeFiles/pub_control.dir/src/pub_control.cpp.o
+.PHONY : src/pub_control.cpp.o
+
+src/pub_control.i: src/pub_control.cpp.i
+
+.PHONY : src/pub_control.i
+
+# target to preprocess a source file
+src/pub_control.cpp.i:
+	cd /home/bearli/competition_catkin_ws/build && $(MAKE) -f demopkg/CMakeFiles/pub_control.dir/build.make demopkg/CMakeFiles/pub_control.dir/src/pub_control.cpp.i
+.PHONY : src/pub_control.cpp.i
+
+src/pub_control.s: src/pub_control.cpp.s
+
+.PHONY : src/pub_control.s
+
+# target to generate assembly for a file
+src/pub_control.cpp.s:
+	cd /home/bearli/competition_catkin_ws/build && $(MAKE) -f demopkg/CMakeFiles/pub_control.dir/build.make demopkg/CMakeFiles/pub_control.dir/src/pub_control.cpp.s
+.PHONY : src/pub_control.cpp.s
 
 src/pub_order.o: src/pub_order.cpp.o
 
@@ -836,10 +920,12 @@ help:
 	@echo "... test"
 	@echo "... install/local"
 	@echo "... install/strip"
+	@echo "... pub_control"
 	@echo "... serial_demo"
 	@echo "... laser"
 	@echo "... edit_cache"
 	@echo "... const_msg_generate_messages_nodejs"
+	@echo "... boost_serial"
 	@echo "... const_msg_generate_messages_eus"
 	@echo "... geometry_msgs_generate_messages_py"
 	@echo "... geometry_msgs_generate_messages_nodejs"
@@ -873,9 +959,15 @@ help:
 	@echo "... const_msg_generate_messages_lisp"
 	@echo "... sensor_msgs_generate_messages_eus"
 	@echo "... sensor_msgs_generate_messages_lisp"
+	@echo "... src/boost_serial.o"
+	@echo "... src/boost_serial.i"
+	@echo "... src/boost_serial.s"
 	@echo "... src/laser.o"
 	@echo "... src/laser.i"
 	@echo "... src/laser.s"
+	@echo "... src/pub_control.o"
+	@echo "... src/pub_control.i"
+	@echo "... src/pub_control.s"
 	@echo "... src/pub_order.o"
 	@echo "... src/pub_order.i"
 	@echo "... src/pub_order.s"

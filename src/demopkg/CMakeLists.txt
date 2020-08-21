@@ -17,7 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+ find_package(Boost REQUIRED)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -141,6 +141,8 @@ include_directories(
  add_executable(pub_order2 src/pub_order2.cpp)
  add_executable(laser src/laser.cpp)
  add_executable(serial_demo src/serial_demo.cpp)
+ add_executable(boost_serial src/boost_serial.cpp)
+ add_executable(pub_control src/pub_control.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -166,6 +168,12 @@ include_directories(
    ${catkin_LIBRARIES}
  )
  target_link_libraries(sub_order
+   ${catkin_LIBRARIES}
+ )
+ target_link_libraries(boost_serial
+   ${catkin_LIBRARIES} ${Boost_LIBRARIES}
+ )
+  target_link_libraries(pub_control
    ${catkin_LIBRARIES}
  )
 

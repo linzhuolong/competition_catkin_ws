@@ -52,6 +52,9 @@ private:
 public:
     DSPControl m_DSPControl;
     DSPStatus  m_DSPStatus;
+    
+    bool receive_flag;  //接受串口发上来的标志位
+    bool send_flag;     //向串口下发的标志位
     serial_communication();
     ~serial_communication();
     /****************************数据回调函数********************************/
@@ -61,7 +64,7 @@ public:
     /**************************串口初始化函数*********************************/
     bool serial_port_init(serial::Serial& serialport);          
     /****************************读入数据***********************************/
-    unsigned char* DSPStatus_read(serial::Serial& serialport);
+    unsigned char* DSPStatus_read(unsigned char* tempbuffer);
     /*****************************校验数据**********************************/
     unsigned short checksum(unsigned char *ptr);
     /*****************************翻译数据**********************************/

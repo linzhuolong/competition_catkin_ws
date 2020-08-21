@@ -60,7 +60,7 @@ int main(int argc, char**argv)
 #include <opencv2/opencv.hpp>
 #include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.h>
-#include <demopkg/target.h>
+
 using namespace std;
 #define datasize 1081
   //tutorial demonstrates the use of custom separate callback queues that can be processed
@@ -226,17 +226,13 @@ void ls_thread()
     ROS_INFO_STREAM("laser thread id=" << boost::this_thread::get_id());
     
     ros::NodeHandle nh_0;
-    ros::Publisher laser_pub = nh_0.advertise<demopkg::target>("/object_param", 1000);
+    //ros::Publisher laser_pub = nh_0.advertise<demopkg::target>("/object_param", 1000);
     while (nh_0.ok())
     {
         //第四步: 执行自定义队列中的回调函数.
         // CallbackQueue类有两种调用内部回调的方法:callAvailable()和callOne()。
         // callAvailable()将获取队列中当前的所有内容并调用它们。callOne()将简单地调用队列上最古老的回调。
         laser_queue.callAvailable(ros::WallDuration(0.01));
-        demopkg::target target_msg;
-        target_msg.angle = tempPair.first;
-        target_msg.distance = tempPair.second;
-        laser_pub.publish(target_msg);
     }
 }
 

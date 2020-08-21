@@ -7,9 +7,9 @@ using namespace std;
 using namespace ros;
 //同时收发　http://zhaoxuhui.top/blog/2019/10/20/ros-note-7.html
 
-serial::Serial ser;//定义一个串口对象
+serial::Serial ser; //定义一个串口对象
 
-serial_communication::serial_communication()
+serial_communication::serial_communication() : receive_flag(true), send_flag(true)
 {
     control_sub = nh.subscribe("/pc_to_dsp", 1000, &serial_communication::controlCallback, this);
     status_pub = nh.advertise<const_msg::dsp_to_pc>("/dsp_to_pc", 1000);
@@ -22,6 +22,7 @@ serial_communication::~serial_communication()
 void serial_communication::controlCallback(const const_msg::pc_to_dspConstPtr &control_msg)
 {
     //TODO: 失败帧count
+    ROS_INFO_STREAM("callback start");
     if (control_msg->flag_start_stop)
     {
         m_DSPControl.flag_start_stop = control_msg->flag_start_stop;
@@ -30,6 +31,7 @@ void serial_communication::controlCallback(const const_msg::pc_to_dspConstPtr &c
         m_DSPControl.V2 = control_msg->V2;
         m_DSPControl.V3 = control_msg->V3;
         m_DSPControl.V4 = control_msg->V4;
+        ROS_INFO_STREAM("m_DSPControl.V1 is: "<<m_DSPControl.V1);
         DSPControl_write(ser, m_DSPControl);
     }
     else
@@ -62,12 +64,7 @@ bool serial_communication::OnDSPStartCommunication(serial::Serial &serialport)
     for (int i = 0; i < 3; i++)
         serialport.write(InitStart, 16);
     serialport.read(r, 16);
-    for (size_t i = 0; i < 16; i++)
-    {
-        if (r[i] == InitRecv[i])
-            count++;
-    }
-    if (count != 16)
+    if (r[0] != 0xfa && r[1] != 0xfb)
     {
         ROS_ERROR_STREAM("DSP start error");
         return false;
@@ -91,6 +88,7 @@ bool serial_communication::OnDSPStopCommunication(serial::Serial &serialport)
     }
     else
     {
+        serialport.close();
         return true;
     }
 }
@@ -104,7 +102,7 @@ bool serial_communication::serial_port_init(serial::Serial &serialport)
         {
             serialport.setPort("/dev/ttyUSB0");
             serialport.setBaudrate(115200);
-            serial::Timeout to = serial::Timeout::simpleTimeout(45);
+            serial::Timeout to = serial::Timeout::simpleTimeout(50);
             serialport.setTimeout(to);
             serialport.open();
         }
@@ -116,7 +114,9 @@ bool serial_communication::serial_port_init(serial::Serial &serialport)
         if (serialport.isOpen())
         {
             serial_flag = 1;
-            while (!OnDSPStartCommunication(serialport) && ros::ok()){            }
+            while (!OnDSPStartCommunication(serialport) && ros::ok())
+            {
+            }
             ROS_INFO_STREAM("serial port initialized, DSP start right");
         }
         else
@@ -129,17 +129,17 @@ bool serial_communication::serial_port_init(serial::Serial &serialport)
     return true;
 }
 
-unsigned char *serial_communication::DSPStatus_read(serial::Serial &serialport)
+unsigned char *serial_communication::DSPStatus_read(unsigned char *tempbuffer)
 {
     //定义为static类型，当出现数据包不完整的时候，可以发送上一帧的数据
-    //todo 增加失败帧的count
-    static unsigned char rbuffer[rbuffersize] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    unsigned char tempbuffer[rbuffersize];
-    int s = serialport.read(tempbuffer, rbuffersize);
-
+    //TODO: 增加失败帧的count
+    static unsigned char rbuffer[rbuffersize];
+    static int count;//失败帧计数　
     if (0xfa != tempbuffer[0] && 0xfb != tempbuffer[1])
     {
         ROS_ERROR_STREAM("data head wrong");
+        receive_flag = false;
+        count++;
     }
     else
     {
@@ -148,15 +148,18 @@ unsigned char *serial_communication::DSPStatus_read(serial::Serial &serialport)
         unsigned short temp = (unsigned short)(tempbuffer[14] * 0x100 + tempbuffer[15]);
         if (chksum == temp)
         {
+            receive_flag = true;
             ROS_INFO_STREAM("Receive DSPdata right");
             for (size_t i = 0; i < rbuffersize; i++)
             {
-                rbuffer[i] == tempbuffer[i];
+                rbuffer[i] = tempbuffer[i];
             }
         }
         else
         {
             ROS_ERROR_STREAM("Receive DSPdata checksum error");
+            receive_flag = false;
+            count++;
         }
         return rbuffer;
     }
@@ -182,7 +185,8 @@ DSPStatus &serial_communication::translate(unsigned char *databuff, DSPStatus &p
 
     pDSPStatus.XDist = (short)(databuff[3] * 0x100 + databuff[4]);
     pDSPStatus.YDist = (short)(databuff[5] * 0x100 + databuff[6]);
-    pDSPStatus.fAngle = (short)(databuff[7] * 0x100 + databuff[8]) / 32768 * 180;
+    pDSPStatus.fAngle = (short)(databuff[7] * 0x100 + databuff[8]) * 180 / 32768;
+    //ROS_INFO_STREAM("fangle is:"<<pDSPStatus.fAngle);
     pDSPStatus.fAngle = (float)mth_ChangeAngle(pDSPStatus.fAngle);
     pDSPStatus.DW = (old_angle - pDSPStatus.fAngle) / 0.045; //45ms通信一次
     old_angle = pDSPStatus.fAngle;
@@ -204,7 +208,7 @@ bool serial_communication::DSPControl_write(serial::Serial &serialport, DSPContr
     databuff[5] = pDSPControl.V2 & 0xff;
     databuff[6] = (pDSPControl.V3 >> 8) & 0xff;
     databuff[7] = pDSPControl.V3 & 0xff;
-    databuff[8] = (pDSPControl.V4) & 0xff;
+    databuff[8] = (pDSPControl.V4 >> 8) & 0xff;
     databuff[9] = pDSPControl.V4 & 0xff;
     switch (pDSPControl.SendData_state)
     {
@@ -249,15 +253,16 @@ bool serial_communication::DSPControl_write(serial::Serial &serialport, DSPContr
     }
     else
     {
+        ROS_INFO_STREAM("Write control data to serialport right");
         return true;
     }
 }
 
 double serial_communication::mth_ChangeAngle(double theta)
 {
-    while(theta>180)
-        theta-=360;
-    while(theta<=180)
-        theta+=180;
+    while (theta > 180)
+        theta -= 360;
+    while (theta <= -180)
+        theta += 360;
     return theta;
 }

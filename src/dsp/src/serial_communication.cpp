@@ -11,8 +11,8 @@ serial::Serial ser; //定义一个串口对象
 
 serial_communication::serial_communication() : receive_flag(true), send_flag(true)
 {
-    control_sub = nh.subscribe("/pc_to_dsp", 1000, &serial_communication::controlCallback, this);
-    status_pub = nh.advertise<const_msg::dsp_to_pc>("/dsp_to_pc", 1000);
+    control_sub = nh.subscribe("/pc_to_dsp", 1, &serial_communication::controlCallback, this);
+    status_pub = nh.advertise<const_msg::dsp_to_pc>("/dsp_to_pc", 1);
 }
 
 serial_communication::~serial_communication()

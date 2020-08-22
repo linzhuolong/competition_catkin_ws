@@ -6,13 +6,13 @@ using namespace ros;
 
 DecisionMaking::DecisionMaking(/* args */)
 {
-	detect_sub = nh.subscribe("/detect_result", 1000, &DecisionMaking::detect_callback, this);
+	detect_sub = nh.subscribe("/detect_result", 1, &DecisionMaking::detect_callback, this);
 	//订阅感知部分传过来的数据
-	serial_sub = nh.subscribe("/dsp_to_pc", 1000, &DecisionMaking::serial_callback, this);
+	serial_sub = nh.subscribe("/dsp_to_pc", 1, &DecisionMaking::serial_callback, this);
 	//订阅底层部分传过来的数据
-	detect_pub = nh.advertise<std_msgs::Int32>("/target_type", 1000);
+	detect_pub = nh.advertise<std_msgs::Int32>("/target_type", 1);
 	//发布视觉感知命令
-	serial_pub = nh.advertise<const_msg::pc_to_dsp>("/pc_to_dsp", 1000);
+	serial_pub = nh.advertise<const_msg::pc_to_dsp>("/pc_to_dsp", 1);
 	//发布底层控制命令
 
 	dsp_status.fAngle = 0;

@@ -27,8 +27,8 @@ Vision::Vision() : it(nh)
 {
 	image_sub = it.subscribe("/usb_cam/image_raw", 1, &Vision::img_callback, this);
 	laser_data_sub = nh.subscribe("/scan", 1000, &Vision::laser_callback, this);
-	object_target_sub = nh.subscribe("/target_type", 1000, &Vision::object_target_callback, this);
-	detect_data_pub = nh.advertise<const_msg::object_param>("/detect_result", 1000);
+	object_target_sub = nh.subscribe("/target_type", 1, &Vision::object_target_callback, this);
+	detect_data_pub = nh.advertise<const_msg::object_param>("/detect_result", 1);
 }
 
 /****************************receive image data**********************/

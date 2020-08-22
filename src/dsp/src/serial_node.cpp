@@ -5,7 +5,6 @@
 #include <time.h>
 #include "dsp/serial_communication.h"
 
-
 using namespace std;
 using namespace ros;
 
@@ -31,18 +30,14 @@ int main(int argc, char**argv)
         }
         std::cout<<std::endl;
         */
-        start = clock();
         pbuffer = ser_process.DSPStatus_read(tempbuffer);
         ser_process.m_DSPStatus = ser_process.translate(pbuffer, ser_process.m_DSPStatus);
         ROS_INFO_STREAM("m_DSPStatus.XDist is: "<<ser_process.m_DSPStatus.XDist);
         ROS_INFO_STREAM("m_DSPStatus.YDist is: "<<ser_process.m_DSPStatus.YDist);
         ser_process.DSPStatus_pub(ser_process.m_DSPStatus);
         spinOnce();
-        r.sleep();
-        Duration t = r.cycleTime();
-        end = clock();
-        double delay = (double)(end-start)/CLOCKS_PER_SEC;
-        //ROS_INFO_STREAM("delay is: "<<t.sec);
+        //r.sleep();一定要去掉，不然会导致延时
+
     }
     return 0;
 }
